@@ -70,39 +70,28 @@
 <div id="catalogo">Cargando...</div>
 
 <script>
-const SHEET_URL =
- "https://docs.google.com/spreadsheets/d/e/2PACX-1vQjpCXd4OsYOfhRamCDGBGAudi3ugOIqKzgaeVaqz0Dre2GV3a_s26KxDmEVRB0B8j6gDFniJCJoAav/pub?gid=149275084&single=true&output=csv";
+// ⭐⭐ PONÉ ACÁ LA URL DEL DEPLOY DEL WEBAPP ⭐⭐
+const API_URL = "TU_URL_DEL_WEBAPP"; // ejemplo: https://script.google.com/macros/s/AKfycbxxxx/exec
 
 async function cargarCatalogo() {
   try {
-    const response = await fetch(SHEET_URL);
-    const data = await response.text();
-
-    const rows = data.split("\n").map(r => r.split(","));
-    rows.shift(); // saca encabezado
+    const response = await fetch(API_URL);
+    const lista = await response.json();
 
     const contenedor = document.getElementById("catalogo");
     contenedor.innerHTML = "";
 
-    rows.forEach(row => {
-      if (row.length < 6) return;
-
-      const id = row[0];
-      const regalo = row[1];
-      const descripcion = row[2];
-      const imagen = row[3];
-      const link = row[4]; // opcional
-      // row[5] = stock → simplemente NO SE USA
-
+    lista.forEach(item => {
       const card = document.createElement("div");
       card.className = "item";
 
       card.innerHTML = `
-        <img src="${imagen}" alt="${regalo}">
-        <div class="titulo">${regalo}</div>
-        <div class="descripcion">${descripcion}</div>
+        <img src="${item.imagen}" alt="${item.nombre}">
+        <div class="titulo">${item.nombre}</div>
+        <div class="descripcion">${item.descripcion}</div>
       `;
 
+      // → Selección múltiple
       card.addEventListener("click", () => {
         card.classList.toggle("selected");
       });
