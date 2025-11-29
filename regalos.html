@@ -1,141 +1,53 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <base target="_top">
-  <meta charset="UTF-8">
-  <title>Regalos</title>
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const email = params.get("email");
+  let regaloSeleccionado = null;
 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #fafafa;
-      padding: 30px;
-      text-align: center;
+  function cargarRegalos() {
+    google.script.run
+      .withSuccessHandler(renderRegalos)
+      .withFailureHandler(err => {
+        document.getElementById("regalos").innerText = "Error al cargar.";
+        console.error(err);
+      })
+      .getRegalos();
+  }
+
+  function renderRegalos(lista) {
+    const cont = document.getElementById("regalos");
+    cont.innerHTML = "";
+
+    lista.forEach(reg => {
+      const div = document.createElement("div");
+      div.className = "item";
+      div.innerHTML = `
+        <img src="${reg.imagen}" alt="Regalo">
+        <h3>${reg.nombre}</h3>
+        <p>${reg.descripcion}</p>
+      `;
+
+      div.onclick = () => {
+        document.querySelectorAll(".item").forEach(e => e.classList.remove("selected"));
+        div.classList.add("selected");
+        regaloSeleccionado = reg.id;   // <-- IMPORTANTE (ID REAL)
+      };
+
+      cont.appendChild(div);
+    });
+  }
+
+  function enviarSeleccion() {
+    if (!regaloSeleccionado) {
+      alert("Por favor, elegí un regalo antes de enviar.");
+      return;
     }
 
-    h1 {
-      color: #333;
-    }
+    google.script.run
+      .withSuccessHandler(() => {
+        window.location.href = "exit.html";
+      })
+      .guardarRespuesta(email, [regaloSeleccionado]);   // <-- ARRAY
+  }
 
-    #regalos {
-      margin-top: 30px;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-    }
-
-    .item {
-      border: 2px solid transparent;
-      padding: 15px;
-      width: 200px;
-      cursor: pointer;
-      border-radius: 12px;
-      background: white;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      transition: 0.3s;
-      text-align: center;
-    }
-
-    .item img {
-      width: 100%;
-      height: 160px;
-      object-fit: cover;
-      border-radius: 8px;
-    }
-
-    .item:hover {
-      transform: scale(1.03);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-    }
-
-    .selected {
-      border-color: #4CAF50;
-      transform: scale(1.05);
-    }
-
-    button {
-      margin-top: 30px;
-      padding: 15px 40px;
-      background: #4CAF50;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      font-size: 16px;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-
-    button:hover {
-      background: #43a047;
-    }
-  </style>
-
-</head>
-<body>
-
-  <h1>Elegí tu regalo 🎁</h1>
-
-  <div id="regalos">Cargando regalos...</div>
-
-  <br>
-
-  <button onclick="enviarSeleccion()">Enviar selección</button>
-
-
-  <script>
-    const params = new URLSearchParams(window.location.search);
-    const email = params.get("email");
-    let regaloSeleccionado = null;
-
-    function cargarRegalos() {
-      google.script.run
-        .withSuccessHandler(renderRegalos)
-        .withFailureHandler(err => {
-          document.getElementById("regalos").innerText = "Error al cargar.";
-          console.error(err);
-        })
-        .getRegalos();
-    }
-
-    function renderRegalos(lista) {
-      const cont = document.getElementById("regalos");
-      cont.innerHTML = "";
-
-      lista.forEach(reg => {
-        const div = document.createElement("div");
-        div.className = "item";
-        div.innerHTML = `
-          <img src="${reg.imagen}" alt="Regalo">
-          <h3>${reg.nombre}</h3>
-          <p>${reg.descripcion}</p>
-        `;
-
-        div.onclick = () => {
-          document.querySelectorAll(".item").forEach(e => e.classList.remove("selected"));
-          div.classList.add("selected");
-          regaloSeleccionado = reg.nombre;
-        };
-
-        cont.appendChild(div);
-      });
-    }
-
-    function enviarSeleccion() {
-      if (!regaloSeleccionado) {
-        alert("Por favor, elegí un regalo antes de enviar.");
-        return;
-      }
-
-      google.script.run
-        .withSuccessHandler(() => {
-          window.location.href = "exit.html";
-        })
-        .guardarRespuesta(email, regaloSeleccionado);
-    }
-
-    cargarRegalos();
-  </script>
-
-</body>
-</html>
+  cargarRegalos();
+</script>
