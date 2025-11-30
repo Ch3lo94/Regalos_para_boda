@@ -15,8 +15,8 @@ body {
 /* Encabezados centrados y texto */
 .center { 
   text-align:center; 
-  width:90%;
-  max-width:500px;
+  width:90%;        
+  max-width:500px;  
   padding:20px;
   box-sizing:border-box;
   margin:0 auto;
@@ -30,7 +30,7 @@ p  { font-size:16px; line-height:1.4; }
 .welcome-img {
   width:100%;
   max-width:420px;
-  height:auto;
+  height:auto;       
   border-radius:20px;
   box-shadow:0 4px 12px rgba(0,0,0,0.2);
 }
@@ -54,11 +54,10 @@ p  { font-size:16px; line-height:1.4; }
   background:white;
   border-radius:14px;
   overflow:hidden;
+  cursor:pointer;
   border:3px solid transparent;
   transition:.25s ease;
   box-shadow:0 4px 12px rgba(0,0,0,0.1);
-  display:flex;
-  flex-direction:column;
 }
 
 .card:hover {
@@ -67,7 +66,7 @@ p  { font-size:16px; line-height:1.4; }
 }
 
 .selected {
-  border:3px solid #d4af37 !important;
+  border:3px solid #d4af37 !important; 
   box-shadow:0 6px 18px rgba(212,175,55,0.6) !important;
   transform: scale(1.02);
 }
@@ -78,10 +77,7 @@ p  { font-size:16px; line-height:1.4; }
   object-fit:cover;
 }
 
-.card-content {
-  padding:16px;
-  flex-grow:1;
-}
+.card-content { padding:16px; }
 
 .agotado {
   opacity:0.4;
@@ -105,6 +101,25 @@ p  { font-size:16px; line-height:1.4; }
   cursor:not-allowed;
 }
 
+/* Botón de compra en tarjeta */
+.buy-btn {
+  display:block;
+  width:100%;
+  margin-top:10px;
+  padding:8px 0;
+  background:#d4af37;
+  color:white;
+  border:none;
+  border-radius:8px;
+  text-align:center;
+  font-weight:bold;
+  cursor:pointer;
+  text-decoration:none;
+}
+.buy-btn:hover {
+  background:#b7952d;
+}
+
 /* Botón Google centrado */
 #google-btn-wrapper {
   width:100%;
@@ -120,29 +135,20 @@ p  { font-size:16px; line-height:1.4; }
   display:block !important;
 }
 
-/* Botón Comprar en tarjeta */
-.buy-btn {
-  display:block;
-  margin-top:12px;
-  padding:10px 15px;
-  background:#d4af37;
-  color:white;
-  text-decoration:none;
-  border-radius:8px;
-  font-weight:bold;
-  text-align:center;
-  transition:0.2s;
-}
-.buy-btn:hover {
-  background:#b8932f;
+/* --- Responsive --- */
+@media (max-width: 1024px) {
+  h1 { font-size:26px; }
+  h2 { font-size:22px; }
+  p  { font-size:15px; }
+  .card img { height:180px; }
 }
 
-/* --- Responsive --- */
 @media (max-width: 768px) {
   h1 { font-size:24px; }
   h2 { font-size:20px; }
   p  { font-size:14px; }
   .card img { height:160px; }
+  .card-content { padding:12px; }
 }
 
 @media (max-width: 480px) {
@@ -183,7 +189,7 @@ p  { font-size:16px; line-height:1.4; }
 
 <!-- Catálogo de regalos -->
 <div id="catalogo" class="hidden">
-  <h1 class="center">Elegí uno o más regalos</h1>
+  <h1 class="center">Elegí uno o más regalo</h1>
   <div class="grid-wrapper">
     <div id="grid" class="grid"></div>
   </div>
@@ -192,6 +198,7 @@ p  { font-size:16px; line-height:1.4; }
 
 <script>
 const API = "https://script.google.com/macros/s/AKfycbyISWbCW9HkNFs_4tqYFjNrQW6GLU9F-MwytJq1f_ilyB0Y5lF3H7znpV_0CRCWiLSS/exec";
+
 let usuario = null;
 let seleccion = [];
 
@@ -242,9 +249,9 @@ async function cargarCatalogo() {
   items.forEach(item => {
     const card = document.createElement("div");
     card.className = "card";
-    if (item.stockRestante <= 0) card.classList.add("agotado");
+    if(item.stockRestante <=0) card.classList.add("agotado");
 
-    // Tarjeta con botón Comprar
+    // Contenido de la tarjeta
     card.innerHTML = `
       <img src="${item.imagen}">
       <div class="card-content">
@@ -254,12 +261,7 @@ async function cargarCatalogo() {
       </div>
     `;
 
-    // Solo seleccionar tarjeta al hacer click en la tarjeta, no en el botón
-    card.addEventListener("click", e => {
-      if(e.target.classList.contains('buy-btn')) return;
-      toggle(item.id, card);
-    });
-
+    card.onclick = () => toggle(item.id, card);
     grid.appendChild(card);
   });
 }
@@ -267,20 +269,20 @@ async function cargarCatalogo() {
 // Selección
 function toggle(id, card) {
   if (seleccion.includes(id)) {
-    seleccion = seleccion.filter(x => x !== id);
+    seleccion = seleccion.filter(x => x!==id);
     card.classList.remove("selected");
   } else {
     seleccion.push(id);
     card.classList.add("selected");
   }
-  document.getElementById("confirm-btn").disabled = seleccion.length === 0;
+  document.getElementById("confirm-btn").disabled = seleccion.length===0;
 }
 
 // Confirmar selección
 document.getElementById("confirm-btn").onclick = async () => {
   const resp = await fetch(API, {
-    method: "POST",
-    body: JSON.stringify({
+    method:"POST",
+    body:JSON.stringify({
       nombre: usuario.nombre,
       apellido: usuario.apellido,
       email: usuario.email,
@@ -290,11 +292,11 @@ document.getElementById("confirm-btn").onclick = async () => {
 
   const r = await resp.json();
 
-  if (r.success) {
-    localStorage.setItem("respondio_" + usuario.email, "1");
+  if(r.success){
+    localStorage.setItem("respondio_"+usuario.email,"1");
     mostrarMensajeFinal();
   } else {
-    alert("Error: " + r.error);
+    alert("Error: "+r.error);
   }
 };
 </script>
