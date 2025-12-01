@@ -12,95 +12,88 @@ body {
   font-family:"Segoe UI", sans-serif;
 }
 
-/* Contenedor centrado mejorado en móviles */
+/* Encabezados centrados y texto */
 .center { 
   text-align:center; 
-  width:94%;
-  max-width:620px;  /* más grande que antes */
-  padding:25px;
+  width:90%;        /* ocupar casi todo el ancho en móviles */
+  max-width:500px;  /* límite en pantallas grandes */
+  padding:20px;
   box-sizing:border-box;
   margin:0 auto;
 }
 
-h1 { font-size:30px; margin-bottom:18px; }
-h2 { font-size:26px; margin-bottom:12px; }
-p  { font-size:18px; line-height:1.5; }
+h1 { font-size:28px; margin-bottom:15px; }
+h2 { font-size:24px; margin-bottom:10px; }
+p  { font-size:16px; line-height:1.4; }
 
-/* Imagen bienvenida ampliada */
+/* Imagen bienvenida */
 .welcome-img {
   width:100%;
-  max-width:520px;
-  height:auto;
-  border-radius:22px;
-  box-shadow:0 4px 12px rgba(0,0,0,0.25);
+  max-width:420px;
+  height:auto;       /* escala proporcional */
+  border-radius:20px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.2);
 }
 
 .hidden { display:none; }
 
-/* --- Grid grande --- */
+/* --- Grid adaptativo --- */
 .grid-wrapper {
   width:100%;
-  padding:25px;
+  padding:20px;
   box-sizing:border-box;
 }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* TARJETAS MÁS GRANDES */
-  gap: 26px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px;
 }
 
 .card {
   background:white;
-  border-radius:16px;
+  border-radius:14px;
   overflow:hidden;
   cursor:pointer;
   border:3px solid transparent;
   transition:.25s ease;
-  box-shadow:0 4px 14px rgba(0,0,0,0.12);
-  padding-bottom:8px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.1);
 }
 
 .card:hover {
   transform: translateY(-4px);
-  box-shadow:0 6px 18px rgba(0,0,0,0.14);
+  box-shadow:0 6px 16px rgba(0,0,0,0.12);
 }
 
 .selected {
-  border:3px solid #d4af37 !important;
-  box-shadow:0 6px 22px rgba(212,175,55,0.55) !important;
+  border:3px solid #d4af37 !important; /* borde dorado */
+  box-shadow:0 6px 18px rgba(212,175,55,0.6) !important;
   transform: scale(1.02);
 }
 
 .card img {
   width:100%;
-  height:260px; /* MÁS ALTA */
+  height:200px;
   object-fit:cover;
 }
 
-.card-content { 
-  padding:18px; 
-}
+.card-content { padding:16px; }
 
-.card-content h3 { font-size:20px; }
-.card-content p  { font-size:15px; }
-
-/* Agotado */
 .agotado {
-  opacity:0.45;
+  opacity:0.4;
   pointer-events:none;
 }
 
 /* Botón confirmar */
 #confirm-btn {
   display:block;
-  margin:30px auto;
-  padding:14px 36px;
+  margin:25px auto;
+  padding:12px 30px;
   background:#0077ff;
   color:white;
   border:none;
-  border-radius:14px;
-  font-size:20px;
+  border-radius:12px;
+  font-size:18px;
   cursor:pointer;
 }
 #confirm-btn:disabled {
@@ -114,7 +107,7 @@ p  { font-size:18px; line-height:1.5; }
   display:flex;
   justify-content:center;
   align-items:center;
-  margin-top:22px;
+  margin-top:20px;
 }
 
 .g_id_signin > div,
@@ -124,41 +117,40 @@ p  { font-size:18px; line-height:1.5; }
 }
 
 /* --- Responsive --- */
-@media (max-width: 900px) {
-  h1 { font-size:28px; }
-  h2 { font-size:24px; }
-  p  { font-size:17px; }
-  .card img { height:230px; }
+@media (max-width: 1024px) {
+  h1 { font-size:26px; }
+  h2 { font-size:22px; }
+  p  { font-size:15px; }
+  .card img { height:180px; }
 }
 
 @media (max-width: 768px) {
-  h1 { font-size:26px; }
-  h2 { font-size:23px; }
-  p  { font-size:16px; }
-  .grid { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); } /* MÁS GRANDES EN MÓVIL */
-  .card img { height:200px; }
-  .card-content { padding:14px; }
+  h1 { font-size:24px; }
+  h2 { font-size:20px; }
+  p  { font-size:14px; }
+  .card img { height:160px; }
+  .card-content { padding:12px; }
 }
 
 @media (max-width: 480px) {
-  .welcome-img { max-width:100%; }
-  h1 { font-size:24px; }
-  h2 { font-size:22px; }
-  p  { font-size:16px; }
-  .card img { height:180px; }
-  .card-content { padding:12px; }
-  #confirm-btn { padding:12px 28px; font-size:18px; }
-  .grid { gap:20px; }
+  h1 { font-size:20px; }
+  h2 { font-size:18px; }
+  p  { font-size:13px; }
+  .grid {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+  .card img { height:120px; }
+  .card-content { padding:8px; }
+  #confirm-btn { padding:10px 20px; font-size:16px; }
 }
 </style>
 </head>
 
 <body>
 
-<!-- Pantalla bienvenida -->
+<!-- Pantalla de bienvenida / login Google -->
 <div id="welcome" class="center">
   <img class="welcome-img" src="https://raw.githubusercontent.com/Ch3lo94/Regalos_Boda/main/images/IMG-20251127-WA0008.jpg">
-  
   <h2>Nos ayudarías mucho con estas cosas que nos faltan ❤️</h2>
   <p>Ingresá con tu cuenta de Google y seleccioná lo que desees regalarnos.</p>
 
@@ -176,9 +168,9 @@ p  { font-size:18px; line-height:1.5; }
   </div>
 </div>
 
-<!-- Catálogo -->
+<!-- Catálogo de regalos -->
 <div id="catalogo" class="hidden">
-  <h1 class="center">Elegí uno o más regalos</h1>
+  <h1 class="center">Elegí uno o más regalo</h1>
   <div class="grid-wrapper">
     <div id="grid" class="grid"></div>
   </div>
@@ -191,7 +183,7 @@ const API = "https://script.google.com/macros/s/AKfycbyISWbCW9HkNFs_4tqYFjNrQW6G
 let usuario = null;
 let seleccion = [];
 
-// Final
+// Mostrar mensaje final
 function mostrarMensajeFinal() {
   document.body.innerHTML = `
     <div class="center">
@@ -265,7 +257,7 @@ function toggle(id, card) {
   document.getElementById("confirm-btn").disabled = seleccion.length === 0;
 }
 
-// Confirmación
+// Confirmar selección
 document.getElementById("confirm-btn").onclick = async () => {
   const resp = await fetch(API, {
     method: "POST",
