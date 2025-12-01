@@ -7,194 +7,192 @@
 
 <style>
 body {
-  margin:0;
-  background:#fafafa;
-  font-family:"Segoe UI", sans-serif;
+  margin:0;
+  background:#fafafa;
+  font-family:"Segoe UI", sans-serif;
 }
 
-/* Encabezados centrados */
-.center { 
-  text-align:center; 
-  max-width:500px;
-  padding:30px 20px;
-  box-sizing:border-box;
-  margin:0 auto;
+/* Encabezados centrados y texto */
+.center { 
+  text-align:center; 
+  width:90%;
+  max-width:500px;
+  padding:20px;
+  box-sizing:border-box;
+  margin:0 auto;
 }
 
+h1 { font-size:28px; margin-bottom:15px; }
+h2 { font-size:24px; margin-bottom:10px; }
+p  { font-size:16px; line-height:1.4; }
+
+/* Imagen bienvenida */
 .welcome-img {
-  width:100%;
-  max-width:420px;
-  border-radius:20px;
-  box-shadow:0 4px 12px rgba(0,0,0,0.2);
+  width:100%;
+  max-width:420px;
+  height:auto;
+  border-radius:20px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.2);
 }
 
 .hidden { display:none; }
 
-/* --- Grid adaptativo real --- */
+/* --- Grid adaptativo --- */
 .grid-wrapper {
-  width:100%;
-  padding:20px;
-  box-sizing:border-box;
+  width:100%;
+  padding:20px;
+  box-sizing:border-box;
 }
 
 .grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px;
 }
 
 .card {
-  background:white;
-  border-radius:14px;
-  overflow:hidden;
-  cursor:pointer;
-  border:3px solid transparent;
-  transition:.25s ease;
-  box-shadow:0 4px 12px rgba(0,0,0,0.1);
-  position: relative; /* Esencial para el overlay */
+  background:white;
+  border-radius:14px;
+  overflow:hidden;
+  cursor:pointer;
+  border:3px solid transparent;
+  transition:.25s ease;
+  box-shadow:0 4px 12px rgba(0,0,0,0.1);
+  display:flex;
+  flex-direction:column;
 }
 
-.card:not(.agotado):hover {
-  transform: translateY(-4px);
-  box-shadow:0 6px 16px rgba(0,0,0,0.12);
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow:0 6px 16px rgba(0,0,0,0.12);
 }
 
 .selected {
-  border:3px solid #d4af37 !important; /* borde dorado */
-  box-shadow:0 6px 18px rgba(212,175,55,0.6) !important;
-  transform: scale(1.02);
+  border:3px solid #d4af37 !important; /* borde dorado */
+  box-shadow:0 6px 18px rgba(212,175,55,0.6) !important;
+  transform: scale(1.02);
 }
 
 .card img {
-  width:100%;
-  height:200px;
-  object-fit:cover;
+  width:100%;
+  height:200px;
+  object-fit:cover;
 }
 
-.card-content { padding:16px; }
-
-/* --- ESTILOS PARA EL INDICADOR DE AGOTADO/YA ELEGIDO --- */
-.agotado-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: rgba(255, 255, 255, 0.7);
-  z-index: 5;
-  visibility: hidden; /* Oculto por defecto */
-  opacity: 0;
-  transition: opacity .25s ease;
+.card-content { 
+  padding:16px; 
+  flex-grow:1;
 }
 
-.card.agotado .agotado-overlay {
-  visibility: visible; /* Mostrar si está agotado */
-  opacity: 1;
+/* Banner inferior para regalo agotado */
+.agotado {
+  opacity:0.5;
+  pointer-events:none;
+}
+.agotado .agotado-banner {
+  background:#d4af37; /* dorado */
+  color:black;
+  text-align:center;
+  padding:8px 0;
+  font-weight:bold;
+  font-size:14px;
 }
 
-.agotado-btn {
-  padding: 8px 15px;
-  background: #d4af37; /* Color dorado */
-  color: white;
-  border-radius: 8px;
-  font-weight: bold;
-  font-size: 14px;
-  text-align: center;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-  text-transform: uppercase;
-}
-/* --- FIN ESTILOS INDICADOR --- */
-
-.card:not(.selected).agotado {
-  opacity: 0.6; /* Solo aplica opacidad si NO está seleccionado */
-  pointer-events: none; /* Deshabilita el click si no está seleccionado y está agotado */
-}
-
-
-/* Botón confirmar */
+/* Botón confirmar dorado */
 #confirm-btn {
-  display:block;
-  margin:25px auto;
-  padding:12px 30px;
-  background:#0077ff;
-  color:white;
-  border:none;
-  border-radius:12px;
-  font-size:18px;
-  cursor:pointer;
+  display:block;
+  margin:25px auto;
+  padding:12px 30px;
+  background:#d4af37;
+  color:white;
+  border:none;
+  border-radius:12px;
+  font-size:18px;
+  cursor:pointer;
+  transition:.25s ease;
+}
+#confirm-btn:hover:not(:disabled) {
+  background:#c49e2a;
 }
 #confirm-btn:disabled {
-  background:#aaa;
-  cursor:not-allowed;
+  background:#aaa;
+  cursor:not-allowed;
 }
 
 /* Botón Google centrado */
 #google-btn-wrapper {
-  width:100%;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  margin-top:20px;
+  width:100%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  margin-top:20px;
 }
 
 .g_id_signin > div,
 .g_id_signin iframe {
-  margin: 0 auto !important;
-  display:block !important;
+  margin: 0 auto !important;
+  display:block !important;
 }
 
 /* --- Responsive --- */
+@media (max-width: 1024px) {
+  h1 { font-size:26px; }
+  h2 { font-size:22px; }
+  p  { font-size:15px; }
+  .card img { height:180px; }
+}
+
 @media (max-width: 768px) {
-  .card img {
-    height:180px;
-  }
+  h1 { font-size:24px; }
+  h2 { font-size:20px; }
+  p  { font-size:14px; }
+  .card img { height:160px; }
+  .card-content { padding:12px; }
 }
 
 @media (max-width: 480px) {
-  .card img {
-    height:150px;
-  }
-  .card-content {
-    padding:10px;
-  }
-  #confirm-btn {
-    padding:10px 20px;
-    font-size:16px;
-  }
+  h1 { font-size:20px; }
+  h2 { font-size:18px; }
+  p  { font-size:13px; }
+  .grid {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+  .card img { height:120px; }
+  .card-content { padding:8px; }
+  #confirm-btn { padding:10px 20px; font-size:16px; }
 }
 </style>
 </head>
 
 <body>
 
+<!-- Pantalla de bienvenida / login Google -->
 <div id="welcome" class="center">
-  <img class="welcome-img" src="https://raw.githubusercontent.com/Ch3lo94/Regalos_Boda/main/images/IMG-20251127-WA0008.jpg">
-  <h2>Nos ayudarías mucho con estas cosas que nos faltan ❤️</h2>
-  <p>Ingresá con tu cuenta de Google y seleccioná lo que desees regalarnos.</p>
+  <img class="welcome-img" src="https://raw.githubusercontent.com/Ch3lo94/Regalos_Boda/main/images/IMG-20251127-WA0008.jpg">
+  <h2>Nos ayudarías mucho con estas cosas que nos faltan ❤️</h2>
+  <p>Ingresá con tu cuenta de Google y seleccioná lo que desees regalarnos.</p>
 
-  <div id="google-btn-wrapper">
-      <div id="g_id_onload"
-        data-client_id="342769047778-jc52eh3n59a3vjocagmomi8pln5kbqv3.apps.googleusercontent.com"
-        data-callback="handleCredentialResponse">
-      </div>
+  <div id="google-btn-wrapper">
+      <div id="g_id_onload"
+        data-client_id="342769047778-jc52eh3n59a3vjocagmomi8pln5kbqv3.apps.googleusercontent.com"
+        data-callback="handleCredentialResponse">
+      </div>
 
-      <div class="g_id_signin"
-        data-type="standard"
-        data-size="large"
-        data-theme="filled_blue">
-      </div>
-  </div>
+      <div class="g_id_signin"
+        data-type="standard"
+        data-size="large"
+        data-theme="filled_blue">
+      </div>
+  </div>
 </div>
 
+<!-- Catálogo de regalos -->
 <div id="catalogo" class="hidden">
-  <h1 class="center">Elegí un regalo</h1>
-  <div class="grid-wrapper">
-    <div id="grid" class="grid"></div>
-  </div>
-  <button id="confirm-btn" disabled>Confirmar selección</button>
+  <h1 class="center">Elegí uno o más regalo</h1>
+  <div class="grid-wrapper">
+    <div id="grid" class="grid"></div>
+  </div>
+  <button id="confirm-btn" disabled>Confirmar selección</button>
 </div>
 
 <script>
@@ -205,134 +203,99 @@ let seleccion = [];
 
 // Mostrar mensaje final
 function mostrarMensajeFinal() {
-  document.body.innerHTML = `
-    <div class="center">
-      <h1>¡Gracias por tu regalo! 🎁</h1>
-      <p>Tu respuesta ya quedó registrada ❤️</p>
-    </div>`;
+  document.body.innerHTML = `
+    <div class="center">
+      <h1>¡Gracias por tu regalo! 🎁</h1>
+      <p>Tu respuesta ya quedó registrada ❤️</p>
+    </div>`;
 }
 
 // Login Google
 async function handleCredentialResponse(response) {
-  const payload = JSON.parse(atob(response.credential.split('.')[1]));
-  usuario = {
-    nombre: payload.given_name,
-    apellido: payload.family_name,
-    email: payload.email.trim().toLowerCase()
-  };
+  const payload = JSON.parse(atob(response.credential.split('.')[1]));
+  usuario = {
+    nombre: payload.given_name,
+    apellido: payload.family_name,
+    email: payload.email.trim().toLowerCase()
+  };
 
-  if (localStorage.getItem("respondio_" + usuario.email)) {
-    mostrarMensajeFinal();
-    return;
-  }
+  if (localStorage.getItem("respondio_" + usuario.email)) {
+    mostrarMensajeFinal();
+    return;
+  }
 
-  const valid = await fetch(API + "?email=" + usuario.email);
-  const result = await valid.json();
+  const valid = await fetch(API + "?email=" + usuario.email);
+  const result = await valid.json();
 
-  if (result.yaRespondio === true) {
-    localStorage.setItem("respondio_" + usuario.email, "1");
-    mostrarMensajeFinal();
-    return;
-  }
-  
-  // Cargar las selecciones previas (en caso de que el backend las devuelva)
-  if (result.seleccionPrevia && Array.isArray(result.seleccionPrevia)) {
-    seleccion = result.seleccionPrevia;
-  }
+  if (result.yaRespondio === true) {
+    localStorage.setItem("respondio_" + usuario.email, "1");
+    mostrarMensajeFinal();
+    return;
+  }
 
-  document.getElementById("welcome").classList.add("hidden");
-  document.getElementById("catalogo").classList.remove("hidden");
-  cargarCatalogo();
+  document.getElementById("welcome").classList.add("hidden");
+  document.getElementById("catalogo").classList.remove("hidden");
+  cargarCatalogo();
 }
 
 // Cargar catálogo
 async function cargarCatalogo() {
-  const res = await fetch(API);
-  const items = await res.json();
-  const grid = document.getElementById("grid");
-  grid.innerHTML = "";
+  const res = await fetch(API);
+  const items = await res.json();
+  const grid = document.getElementById("grid");
+  grid.innerHTML = "";
 
-  items.forEach(item => {
-    const card = document.createElement("div");
-    card.className = "card";
-    
-    // Determinar el texto del botón de agotado
-    let agotadoTexto = '';
-    if (item.stockRestante <= 0) {
-      card.classList.add("agotado");
-      agotadoTexto = 'Ya Elegido'; 
-    }
+  items.forEach(item => {
+    const card = document.createElement("div");
+    card.className = "card";
+    if (item.stockRestante <= 0) card.classList.add("agotado");
 
-    // Comprobar si fue seleccionado por el usuario o si ya está agotado y se registró antes
-    if (seleccion.includes(item.id)) {
-      card.classList.add("selected");
-      // Si un ítem ya fue elegido (por mí o por otro) se mantiene el texto 'Ya Elegido'
-      if (item.stockRestante <= 0) agotadoTexto = 'Ya Elegido';
-    }
+    card.innerHTML = `
+      <img src="${item.imagen}">
+      <div class="card-content">
+        <h3>${item.nombre}</h3>
+        <p>${item.descripcion || ''}</p>
+      </div>
+      ${item.stockRestante <= 0 ? '<div class="agotado-banner">Ya fue elegido</div>' : ''}
+    `;
 
-    card.innerHTML = `
-      <img src="${item.imagen}">
-            <div class="agotado-overlay">
-        <span class="agotado-btn">${agotadoTexto}</span>
-      </div>
-      <div class="card-content">
-        <h3>${item.nombre}</h3>
-        <p>${item.descripcion || ''}</p>
-      </div>
-    `;
-
-    card.onclick = () => toggle(item.id, card);
-    grid.appendChild(card);
-  });
-  
-  // Habilitar el botón si ya hay elementos en la selección inicial
-  document.getElementById("confirm-btn").disabled = seleccion.length === 0;
+    card.onclick = () => toggle(item.id, card);
+    grid.appendChild(card);
+  });
 }
 
 // Selección
 function toggle(id, card) {
-  // Si el ítem está agotado, no permitimos cambiar el estado (ni seleccionar ni deseleccionar)
-  if (card.classList.contains('agotado')) {
-    return;
-  }
-
-  if (seleccion.includes(id)) {
-    seleccion = seleccion.filter(x => x !== id);
-    card.classList.remove("selected");
-  } else {
-    seleccion.push(id);
-    card.classList.add("selected");
-  }
-  document.getElementById("confirm-btn").disabled = seleccion.length === 0;
+  if (seleccion.includes(id)) {
+    seleccion = seleccion.filter(x => x !== id);
+    card.classList.remove("selected");
+  } else {
+    seleccion.push(id);
+    card.classList.add("selected");
+  }
+  document.getElementById("confirm-btn").disabled = seleccion.length === 0;
 }
 
 // Confirmar selección
 document.getElementById("confirm-btn").onclick = async () => {
-  // Deshabilitamos el botón para evitar múltiples envíos
-  document.getElementById("confirm-btn").disabled = true;
+  const resp = await fetch(API, {
+    method: "POST",
+    body: JSON.stringify({
+      nombre: usuario.nombre,
+      apellido: usuario.apellido,
+      email: usuario.email,
+      seleccion
+    })
+  });
 
-  const resp = await fetch(API, {
-    method: "POST",
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      nombre: usuario.nombre,
-      apellido: usuario.apellido,
-      email: usuario.email,
-      seleccion // Enviamos la lista de IDs seleccionados
-    })
-  });
+  const r = await resp.json();
 
-  const r = await resp.json();
-
-  if (r.success) {
-    localStorage.setItem("respondio_" + usuario.email, "1");
-    mostrarMensajeFinal();
-  } else {
-    alert("Error al confirmar el regalo: " + (r.error || 'Algo salió mal.'));
-    document.getElementById("confirm-btn").disabled = false; // Re-habilita si hay error
-  }
+  if (r.success) {
+    localStorage.setItem("respondio_" + usuario.email, "1");
+    mostrarMensajeFinal();
+  } else {
+    alert("Error: " + r.error);
+  }
 };
 </script>
 
